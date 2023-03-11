@@ -2537,7 +2537,7 @@ namespace Fast.Framework.Extensions
                 {
                     options.DbType.MethodMapping()[node.Method.Name].Invoke(this, node, sqlBuilder);
                 }
-                else if (node.Object.Type.IsVariableBoundArray)//多维数组处理
+                else if (node.Object != null && node.Object.Type.IsVariableBoundArray)//多维数组处理
                 {
                     var resolve = new ExpressionResolveSql(new ResolveSqlOptions());
                     var args = new List<int>();

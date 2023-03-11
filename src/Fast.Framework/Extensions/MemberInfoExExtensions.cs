@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using Fast.Framework.Models;
-
+using Fast.Framework.Utils;
 
 namespace Fast.Framework.Extensions
 {
@@ -27,7 +27,10 @@ namespace Fast.Framework.Extensions
             var names = new List<string>();
             foreach (var item in memberInfos)
             {
-                names.Add(item.Member.Name);
+                if (!item.Member.Name.StartsWith("CS$<>8__locals"))
+                {
+                    names.Add(item.Member.Name);
+                }
                 if (item.ArrayIndex.Count > 0)
                 {
                     names.Add(string.Join("_", item.ArrayIndex.ToList()));
