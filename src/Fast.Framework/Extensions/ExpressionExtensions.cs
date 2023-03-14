@@ -71,35 +71,38 @@ namespace Fast.Framework.Extensions
             #region 类型转换
             sqlserverFunc.Add("ToString", (resolve, method, sqlBuilder) =>
             {
-                if (method.Object != null && method.Object.Type.Equals(typeof(DateTime)))
+                sqlBuilder.Append("CONVERT( VARCHAR(255),");
+
+                var isDateTime = method.Object != null && method.Object.Type.Equals(typeof(DateTime));
+
+                resolve.Visit(method.Object);
+
+                if (isDateTime)
                 {
-                    resolve.Visit(method.Object);
-
-                    var parameter = resolve.dbParameters.Last();
-
+                    sqlBuilder.Append(',');
                     if (method.Arguments.Count > 0)
                     {
-                        var value = resolve.getValue.Visit(method.Arguments[0]);
-
-                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                        var value = Convert.ToString(resolve.getValue.Visit(method.Arguments[0]));
+                        if (value == "yyyy-MM-dd")
+                        {
+                            value = "23";
+                        }
+                        else if (value == "yyyy-MM-dd HH:mm:ss")
+                        {
+                            value = "120";
+                        }
+                        sqlBuilder.Append(value);
                     }
                     else
                     {
-                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString();
+                        sqlBuilder.Append(120);
                     }
                 }
-                else
+                else if (method.Arguments.Count > 0)
                 {
-                    sqlBuilder.Append("CONVERT( VARCHAR(255),");
-
-                    resolve.Visit(method.Object);
-
-                    if (method.Arguments.Count > 0)
-                    {
-                        resolve.Visit(method.Arguments[0]);
-                    }
-                    sqlBuilder.Append(" )");
+                    resolve.Visit(method.Arguments[0]);
                 }
+                sqlBuilder.Append(" )");
             });
 
             sqlserverFunc.Add("ToDateTime", (resolve, method, sqlBuilder) =>
@@ -532,29 +535,38 @@ namespace Fast.Framework.Extensions
             #region 类型转换
             mysqlFunc.Add("ToString", (resolve, method, sqlBuilder) =>
             {
-                if (method.Object != null && method.Object.Type.Equals(typeof(DateTime)))
+                var isDateTime = method.Object != null && method.Object.Type.Equals(typeof(DateTime));
+                if (isDateTime)
                 {
+                    sqlBuilder.Append("DATE_FORMAT( ");
+
                     resolve.Visit(method.Object);
 
-                    var parameter = resolve.dbParameters.Last();
+                    sqlBuilder.Append(',');
 
                     if (method.Arguments.Count > 0)
                     {
-                        var value = resolve.getValue.Visit(method.Arguments[0]);
-
-                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                        var value = Convert.ToString(resolve.getValue.Visit(method.Arguments[0]));
+                        if (value == "yyyy-MM-dd")
+                        {
+                            value = "%Y-%m-%d";
+                        }
+                        else if (value == "yyyy-MM-dd HH:mm:ss")
+                        {
+                            value = "%Y-%m-%d %H:%i:%s";
+                        }
+                        sqlBuilder.Append($"'{value}'");
                     }
                     else
                     {
-                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString();
+                        sqlBuilder.Append("'%Y-%m-%d %H:%i:%s'");
                     }
+                    sqlBuilder.Append(" )");
                 }
                 else
                 {
                     sqlBuilder.Append("CAST( ");
-
                     resolve.Visit(method.Object);
-
                     if (method.Arguments.Count > 0)
                     {
                         resolve.Visit(method.Arguments[0]);
@@ -1011,22 +1023,25 @@ namespace Fast.Framework.Extensions
             #region 类型转换
             oracleFunc.Add("ToString", (resolve, method, sqlBuilder) =>
             {
-                if (method.Object != null && method.Object.Type.Equals(typeof(DateTime)))
+                var isDateTime = method.Object != null && method.Object.Type.Equals(typeof(DateTime));
+
+                if (isDateTime)
                 {
+                    sqlBuilder.Append("TO_CHAR( ");
+
                     resolve.Visit(method.Object);
 
-                    var parameter = resolve.dbParameters.Last();
+                    sqlBuilder.Append(',');
 
                     if (method.Arguments.Count > 0)
                     {
-                        var value = resolve.getValue.Visit(method.Arguments[0]);
-
-                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                        resolve.Visit(method.Arguments[0]);
                     }
                     else
                     {
-                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString();
+                        sqlBuilder.Append("'yyyy-mm-dd hh24:mm:ss'");
                     }
+                    sqlBuilder.Append(" )");
                 }
                 else
                 {
@@ -1049,7 +1064,7 @@ namespace Fast.Framework.Extensions
                 sqlBuilder.Append("TO_TIMESTAMP");
                 sqlBuilder.Append("( ");
                 resolve.Visit(method.Arguments[0]);
-                sqlBuilder.Append(",'yyyy-MM-dd hh:mi:ss.ff' )");
+                sqlBuilder.Append(",'yyyy-mm-dd hh24:mi:ss.ff' )");
             });
 
             oracleFunc.Add("ToDecimal", (resolve, method, sqlBuilder) =>
@@ -1457,22 +1472,25 @@ namespace Fast.Framework.Extensions
             #region 类型转换
             pgsqlFunc.Add("ToString", (resolve, method, sqlBuilder) =>
             {
-                if (method.Object != null && method.Object.Type.Equals(typeof(DateTime)))
+                var isDateTime = method.Object != null && method.Object.Type.Equals(typeof(DateTime));
+
+                if (isDateTime)
                 {
+                    sqlBuilder.Append("TO_CHAR( ");
+
                     resolve.Visit(method.Object);
 
-                    var parameter = resolve.dbParameters.Last();
+                    sqlBuilder.Append(',');
 
                     if (method.Arguments.Count > 0)
                     {
-                        var value = resolve.getValue.Visit(method.Arguments[0]);
-
-                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                        resolve.Visit(method.Arguments[0]);
                     }
                     else
                     {
-                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString();
+                        sqlBuilder.Append("'yyyy-mm-dd hh24:mm:ss'");
                     }
+                    sqlBuilder.Append(" )");
                 }
                 else
                 {
@@ -1880,22 +1898,34 @@ namespace Fast.Framework.Extensions
             #region 类型转换
             sqliteFunc.Add("ToString", (resolve, method, sqlBuilder) =>
             {
-                if (method.Object != null && method.Object.Type.Equals(typeof(DateTime)))
+                var isDateTime = method.Object != null && method.Object.Type.Equals(typeof(DateTime));
+
+                if (isDateTime)
                 {
+                    sqlBuilder.Append("STRFTIME( ");
+
                     resolve.Visit(method.Object);
 
-                    var parameter = resolve.dbParameters.Last();
+                    sqlBuilder.Append(',');
 
                     if (method.Arguments.Count > 0)
                     {
-                        var value = resolve.getValue.Visit(method.Arguments[0]);
-
-                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                        var value = Convert.ToString(resolve.getValue.Visit(method.Arguments[0]));
+                        if (value == "yyyy-MM-dd")
+                        {
+                            value = "%Y-%m-%d";
+                        }
+                        else if (value == "yyyy-MM-dd HH:mm:ss")
+                        {
+                            value = "%Y-%m-%d %H:%M:%S";
+                        }
+                        sqlBuilder.Append($"'{value}'");
                     }
                     else
                     {
-                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString();
+                        sqlBuilder.Append("'%Y-%m-%d %H:%M:%S'");
                     }
+                    sqlBuilder.Append(" )");
                 }
                 else
                 {
