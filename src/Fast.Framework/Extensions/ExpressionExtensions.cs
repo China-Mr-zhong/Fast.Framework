@@ -77,9 +77,16 @@ namespace Fast.Framework.Extensions
 
                     var parameter = resolve.dbParameters.Last();
 
-                    var value = resolve.getValue.Visit(method.Arguments[0]);
+                    if (method.Arguments.Count > 0)
+                    {
+                        var value = resolve.getValue.Visit(method.Arguments[0]);
 
-                    parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                    }
+                    else
+                    {
+                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString();
+                    }
                 }
                 else
                 {
@@ -531,9 +538,16 @@ namespace Fast.Framework.Extensions
 
                     var parameter = resolve.dbParameters.Last();
 
-                    var value = resolve.getValue.Visit(method.Arguments[0]);
+                    if (method.Arguments.Count > 0)
+                    {
+                        var value = resolve.getValue.Visit(method.Arguments[0]);
 
-                    parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                    }
+                    else
+                    {
+                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString();
+                    }
                 }
                 else
                 {
@@ -1003,9 +1017,16 @@ namespace Fast.Framework.Extensions
 
                     var parameter = resolve.dbParameters.Last();
 
-                    var value = resolve.getValue.Visit(method.Arguments[0]);
+                    if (method.Arguments.Count > 0)
+                    {
+                        var value = resolve.getValue.Visit(method.Arguments[0]);
 
-                    parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                    }
+                    else
+                    {
+                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString();
+                    }
                 }
                 else
                 {
@@ -1442,9 +1463,16 @@ namespace Fast.Framework.Extensions
 
                     var parameter = resolve.dbParameters.Last();
 
-                    var value = resolve.getValue.Visit(method.Arguments[0]);
+                    if (method.Arguments.Count > 0)
+                    {
+                        var value = resolve.getValue.Visit(method.Arguments[0]);
 
-                    parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                    }
+                    else
+                    {
+                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString();
+                    }
                 }
                 else
                 {
@@ -1858,9 +1886,16 @@ namespace Fast.Framework.Extensions
 
                     var parameter = resolve.dbParameters.Last();
 
-                    var value = resolve.getValue.Visit(method.Arguments[0]);
+                    if (method.Arguments.Count > 0)
+                    {
+                        var value = resolve.getValue.Visit(method.Arguments[0]);
 
-                    parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString(Convert.ToString(value));
+                    }
+                    else
+                    {
+                        parameter.Value = Convert.ToDateTime(parameter.Value).ToString();
+                    }
                 }
                 else
                 {
