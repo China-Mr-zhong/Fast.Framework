@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Platforms>AnyCPU</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.16" />
+    <PackageReference Include="MySqlConnector" Version="2.3.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Fast.Framework.DependencyInjection\Fast.Framework.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\src\Fast.Framework.Logging\Fast.Framework.Logging.csproj" />
+    <ProjectReference Include="..\..\src\Fast.Framework\Fast.Framework.csproj" />
+    <ProjectReference Include="..\Fast.Framework.Test.Models\Fast.Framework.Test.Models.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Content Remove="Properties\launchSettings.json" />
+  </ItemGroup>
+</Project>
