@@ -14,6 +14,26 @@ namespace Fast.Framework
     {
 
         /// <summary>
+        /// 获取成员类型
+        /// </summary>
+        /// <param name="memberInfo">成员信息</param>
+        /// <returns></returns>
+        public static Type GetMemberType(this MemberInfo memberInfo)
+        {
+            if (memberInfo.MemberType == MemberTypes.Property)
+            {
+                var propertyInfo = memberInfo as PropertyInfo;
+                return propertyInfo.PropertyType;
+            }
+            else if (memberInfo.MemberType == MemberTypes.Field)
+            {
+                var fieldInfo = memberInfo as FieldInfo;
+                return fieldInfo.FieldType;
+            }
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
         /// 获取值
         /// </summary>
         /// <param name="memberInfo">成员信息</param>
@@ -35,7 +55,7 @@ namespace Fast.Framework
                 var fieldInfo = memberInfo as FieldInfo;
                 return fieldInfo.GetValue(obj);
             }
-            return new NotSupportedException($"不支持获取 {memberInfo.MemberType} 类型值.");
+            throw new NotSupportedException();
         }
 
         /// <summary>

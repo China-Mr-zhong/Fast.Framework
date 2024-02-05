@@ -178,8 +178,8 @@ namespace Fast.Framework
                             {
                                 value = (item as Dictionary<string, object>)[columnInfo.ColumnName];
 
-                                columnInfo.MemberType = value == null ? typeof(object) : value.GetType();
-                                columnInfo.UnderlyingType = columnInfo.MemberType.GetUnderlyingType();
+                                var memberType = value == null ? typeof(object) : value.GetType();
+                                columnInfo.UnderlyingType = memberType.GetUnderlyingType();
 
                                 if (value != null && value.GetType().IsClass())
                                 {

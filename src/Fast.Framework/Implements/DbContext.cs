@@ -403,12 +403,11 @@ namespace Fast.Framework
 
                     if (s.Value == null)
                     {
-                        obj.MemberType = typeof(object);
+                        obj.UnderlyingType = typeof(object);
                     }
                     else
                     {
                         var type = s.Value.GetType();
-                        obj.MemberType = type;
                         obj.UnderlyingType = type.GetUnderlyingType();
                         if (type.IsClass())
                         {
@@ -728,12 +727,11 @@ namespace Fast.Framework
                     };
                     if (s.Value == null)
                     {
-                        obj.MemberType = typeof(object);
+                        obj.UnderlyingType = typeof(object);
                     }
                     else
                     {
                         var type = s.Value.GetType();
-                        obj.MemberType = type;
                         obj.UnderlyingType = type.GetUnderlyingType();
 
                         if (type.IsClass())

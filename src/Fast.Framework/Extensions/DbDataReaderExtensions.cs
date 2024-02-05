@@ -491,11 +491,11 @@ namespace Fast.Framework
                             var dbColumn = dbColumns.FirstOrDefault(f => f.ColumnName == columnInfo.ColumnName);
                             if (dbColumn == null)
                             {
-                                parameterExpressions.Add(Expression.Default(columnInfo.MemberType));
+                                parameterExpressions.Add(Expression.Default(columnInfo.MemberInfo.GetMemberType()));
                             }
                             else
                             {
-                                parameterExpressions.Add(GetValueExpressionBuild(parameterExpression, dbColumn, columnInfo.MemberType, columnInfo.IsJson));
+                                parameterExpressions.Add(GetValueExpressionBuild(parameterExpression, dbColumn, columnInfo.MemberInfo.GetMemberType(), columnInfo.IsJson));
                             }
                         }
                         var constructorInfo = type.GetConstructors()[0];
@@ -513,7 +513,7 @@ namespace Fast.Framework
                             var dbColumn = dbColumns.FirstOrDefault(f => f.ColumnName == columnInfo.ColumnName);
                             if (dbColumn != null)
                             {
-                                var getValueExpression = GetValueExpressionBuild(parameterExpression, dbColumn, columnInfo.MemberType, columnInfo.IsJson);
+                                var getValueExpression = GetValueExpressionBuild(parameterExpression, dbColumn, columnInfo.MemberInfo.GetMemberType(), columnInfo.IsJson);
                                 memberExpressions.Add(Expression.Bind(columnInfo.IsField ? columnInfo.FieldInfo : columnInfo.PropertyInfo, getValueExpression));
                             }
                         }

@@ -36,9 +36,9 @@ namespace Fast.Framework
         public FieldInfo FieldInfo { get; set; }
 
         /// <summary>
-        /// 成员类型
+        /// 成员信息
         /// </summary>
-        public Type MemberType { get; set; }
+        public MemberInfo MemberInfo { get; set; }
 
         /// <summary>
         /// 底层类型
@@ -137,7 +137,7 @@ namespace Fast.Framework
                 IsField = this.IsField,
                 PropertyInfo = this.PropertyInfo,
                 FieldInfo = this.FieldInfo,
-                MemberType = this.MemberType,
+                MemberInfo = this.MemberInfo,
                 UnderlyingType = this.UnderlyingType,
                 ColumnName = this.ColumnName,
                 TypeName = this.TypeName,

@@ -12,6 +12,7 @@ namespace Fast.Framework.Test.Models
     /// </summary>
     public class Product : IEntityCache
     {
+
         /// <summary>
         /// 产品ID
         /// </summary>

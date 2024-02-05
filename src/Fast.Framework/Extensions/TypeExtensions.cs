@@ -202,9 +202,9 @@ namespace Fast.Framework
                 {
                     var obj = new ColumnInfo
                     {
-                        PropertyInfo = s
+                        PropertyInfo = s,
+                        MemberInfo = s
                     };
-                    obj.MemberType = s.PropertyType;
                     var underlyingType = Nullable.GetUnderlyingType(s.PropertyType);
                     if (underlyingType == null)
                     {
@@ -233,9 +233,9 @@ namespace Fast.Framework
                     var obj = new ColumnInfo
                     {
                         IsField = true,
-                        FieldInfo = s
+                        FieldInfo = s,
+                        MemberInfo = s
                     };
-                    obj.MemberType = s.FieldType;
                     var underlyingType = Nullable.GetUnderlyingType(s.FieldType);
                     if (underlyingType == null)
                     {

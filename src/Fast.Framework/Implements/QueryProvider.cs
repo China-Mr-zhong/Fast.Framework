@@ -1236,26 +1236,40 @@ namespace Fast.Framework
         }
 
         /// <summary>
-        /// 构建树数据
+        /// 获取树列信息
         /// </summary>
         /// <param name="idName">ID名称</param>
         /// <param name="parentIdName">父级ID名称</param>
         /// <param name="childsName">子列表名称</param>
+        /// <returns></returns>
+        private static ColumnInfo[] GetTreeColumnInfo(string idName, string parentIdName, string childsName)
+        {
+            var entityInfo = typeof(T).GetEntityInfo();
+            var idColumnInfo = entityInfo.ColumnInfos.FirstOrDefault(f => f.MemberInfo.Name == idName) ?? throw new FastException($"ID成员名称:{idName}不存在.");
+            var parentIdColumnInfo = entityInfo.ColumnInfos.FirstOrDefault(f => f.MemberInfo.Name == parentIdName) ?? throw new FastException($"父级ID成员名称:{parentIdName}不存在.");
+            var childsColumnInfo = entityInfo.ColumnInfos.FirstOrDefault(f => f.MemberInfo.Name == childsName) ?? throw new FastException($"子列表成员名称:{childsName}不存在.");
+            return new ColumnInfo[] { idColumnInfo, parentIdColumnInfo, childsColumnInfo };
+        }
+
+        /// <summary>
+        /// 构建树数据
+        /// </summary>
+        /// <param name="idColumnInfo">ID列信息</param>
+        /// <param name="parentIdColumnInfo">父级列信息</param>
+        /// <param name="childsColumnInfo">子列表列信息</param>
         /// <param name="values">值</param>
         /// <param name="rootValue">根值</param>
         /// <returns></returns>
-        private static IEnumerable<T> BuildTreeData(string idName, string parentIdName, string childsName, List<T> values, object rootValue)
+        private static IEnumerable<T> BuildTreeData(ColumnInfo idColumnInfo, ColumnInfo parentIdColumnInfo, ColumnInfo childsColumnInfo, List<T> values, object rootValue)
         {
-            var type = typeof(T);
-            var parentPropertyInfo = type.GetProperty(parentIdName);
-            var treeData = values.Where(w => Convert.ToString(parentPropertyInfo.GetValue(w)) == Convert.ToString(rootValue));
+            var treeData = values.Where(w => Convert.ToString(parentIdColumnInfo.MemberInfo.GetValue(w)) == Convert.ToString(rootValue));
             foreach (var item in treeData)
             {
-                var id = type.GetProperty(idName).GetValue(item);
-                var childs = BuildTreeData(idName, parentIdName, childsName, values, id).ToList();
+                var id = idColumnInfo.MemberInfo.GetValue(item);
+                var childs = BuildTreeData(idColumnInfo, parentIdColumnInfo, childsColumnInfo, values, id).ToList();
                 if (childs.Count > 0)
                 {
-                    type.GetProperty(childsName).SetValue(item, childs);
+                    childsColumnInfo.MemberInfo.SetValue(item, childs);
                 }
             }
             return treeData;
@@ -1273,7 +1287,8 @@ namespace Fast.Framework
         {
             var sql = QueryBuilder.ToSqlString();
             var data = ado.ExecuteReader(CommandType.Text, sql, ado.ToDbParameters(QueryBuilder.DbParameters)).ListBuild<T>();
-            return BuildTreeData(idName, parentIdName, childsName, data, rootValue).ToList();
+            var columnInfos = GetTreeColumnInfo(idName, parentIdName, childsName);
+            return BuildTreeData(columnInfos[0], columnInfos[1], columnInfos[2], data, rootValue).ToList();
         }
 
         /// <summary>
@@ -1288,7 +1303,8 @@ namespace Fast.Framework
         {
             var sql = QueryBuilder.ToSqlString();
             var data = await ado.ExecuteReaderAsync(CommandType.Text, sql, ado.ToDbParameters(QueryBuilder.DbParameters)).ListBuildAsync<T>();
-            return BuildTreeData(idName, parentIdName, childsName, data, rootValue).ToList();
+            var columnInfos = GetTreeColumnInfo(idName, parentIdName, childsName);
+            return BuildTreeData(columnInfos[0], columnInfos[1], columnInfos[2], data, rootValue).ToList();
         }
 
         /// <summary>
