@@ -1236,6 +1236,114 @@ namespace Fast.Framework
         }
 
         /// <summary>
+        /// 构建树数据
+        /// </summary>
+        /// <param name="idName">ID名称</param>
+        /// <param name="parentIdName">父级ID名称</param>
+        /// <param name="childsName">子列表名称</param>
+        /// <param name="values">值</param>
+        /// <param name="rootValue">根值</param>
+        /// <returns></returns>
+        private static IEnumerable<T> BuildTreeData(string idName, string parentIdName, string childsName, List<T> values, object rootValue)
+        {
+            var type = typeof(T);
+            var parentPropertyInfo = type.GetProperty(parentIdName);
+            var treeData = values.Where(w => Convert.ToString(parentPropertyInfo.GetValue(w)) == Convert.ToString(rootValue));
+            foreach (var item in treeData)
+            {
+                var id = type.GetProperty(idName).GetValue(item);
+                var childs = BuildTreeData(idName, parentIdName, childsName, values, id).ToList();
+                if (childs.Count > 0)
+                {
+                    type.GetProperty(childsName).SetValue(item, childs);
+                }
+            }
+            return treeData;
+        }
+
+        /// <summary>
+        /// 到树数据
+        /// </summary>
+        /// <param name="idName">ID名称</param>
+        /// <param name="parentIdName">父级ID名称</param>
+        /// <param name="childsName">子列表名称</param>
+        /// <param name="rootValue">根值</param>
+        /// <returns></returns>
+        public List<T> ToTreeData(string idName, string parentIdName, string childsName, object rootValue)
+        {
+            var sql = QueryBuilder.ToSqlString();
+            var data = ado.ExecuteReader(CommandType.Text, sql, ado.ToDbParameters(QueryBuilder.DbParameters)).ListBuild<T>();
+            return BuildTreeData(idName, parentIdName, childsName, data, rootValue).ToList();
+        }
+
+        /// <summary>
+        /// 到树数据
+        /// </summary>
+        /// <param name="idName">ID名称</param>
+        /// <param name="parentIdName">父级ID名称</param>
+        /// <param name="childsName">子列表名称</param>
+        /// <param name="rootValue">根值</param>
+        /// <returns></returns>
+        public async Task<List<T>> ToTreeDataAsync(string idName, string parentIdName, string childsName, object rootValue)
+        {
+            var sql = QueryBuilder.ToSqlString();
+            var data = await ado.ExecuteReaderAsync(CommandType.Text, sql, ado.ToDbParameters(QueryBuilder.DbParameters)).ListBuildAsync<T>();
+            return BuildTreeData(idName, parentIdName, childsName, data, rootValue).ToList();
+        }
+
+        /// <summary>
+        /// 解析树表达式
+        /// </summary>
+        /// <param name="idExpression">ID表达式</param>
+        /// <param name="parentIdExpression">父级ID表达式</param>
+        /// <param name="childsExpression">子集合表达式</param>
+        /// <returns></returns>
+        private string[] ResolveTreeExp(Expression<Func<T, object>> idExpression, Expression<Func<T, object>> parentIdExpression, Expression<Func<T, object>> childsExpression)
+        {
+            var resolveSqlOptions = new ResolveSqlOptions()
+            {
+                DbType = ado.DbOptions.DbType,
+                ResolveSqlType = ResolveSqlType.NewColumn,
+                IgnoreParameter = true,
+                IgnoreIdentifier = true,
+                IgnoreColumnAttribute = true
+            };
+            var id = idExpression.ResolveSql(resolveSqlOptions).SqlString;
+            var parentId = parentIdExpression.ResolveSql(resolveSqlOptions).SqlString;
+            var childsName = childsExpression.ResolveSql(resolveSqlOptions).SqlString;
+
+            return new string[] { id, parentId, childsName };
+        }
+
+        /// <summary>
+        /// 到树数据
+        /// </summary>
+        /// <param name="idExpression">ID表达式</param>
+        /// <param name="parentIdExpression">父级ID表达式</param>
+        /// <param name="childsExpression">子列表表达式</param>
+        /// <param name="rootValue">根值</param>
+        /// <returns></returns>
+        public List<T> ToTreeData(Expression<Func<T, object>> idExpression, Expression<Func<T, object>> parentIdExpression, Expression<Func<T, object>> childsExpression, object rootValue)
+        {
+            var names = ResolveTreeExp(idExpression, parentIdExpression, childsExpression);
+            return ToTreeData(names[0], names[1], names[2], rootValue);
+        }
+
+        /// <summary>
+        /// 到树数据
+        /// </summary>
+        /// <param name="idExpression">ID表达式</param>
+        /// <param name="parentIdExpression">父级ID表达式</param>
+        /// <param name="childsExpression">子列表表达式</param>
+        /// <param name="rootValue">根值</param>
+        /// <returns></returns>
+        public Task<List<T>> ToTreeDataAsync(Expression<Func<T, object>> idExpression, Expression<Func<T, object>> parentIdExpression, Expression<Func<T, object>> childsExpression, object rootValue)
+        {
+            var names = ResolveTreeExp(idExpression, parentIdExpression, childsExpression);
+            return ToTreeDataAsync(names[0], names[1], names[2], rootValue);
+        }
+
+        /// <summary>
         /// 到数据表格
         /// </summary>
         /// <returns></returns>

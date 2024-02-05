@@ -69,6 +69,8 @@ namespace Fast.Framework
                 nameof(IQuery<object>.ToListAsync),
                 nameof(IQuery<object>.ToPageList),
                 nameof(IQuery<object>.ToPageListAsync),
+                nameof(IQuery<object>.ToTreeData),
+                nameof(IQuery<object>.ToTreeDataAsync),
                 nameof(IQuery<object>.ToDictionary),
                 nameof(IQuery<object>.ToDictionaryAsync),
                 nameof(IQuery<object>.ToDictionaryList),

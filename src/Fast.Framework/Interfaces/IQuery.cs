@@ -539,6 +539,46 @@ namespace Fast.Framework
         Task<List<T>> ToPageListAsync(int page, int pageSize, RefAsync<int> total);
 
         /// <summary>
+        /// 到树数据
+        /// </summary>
+        /// <param name="idName">ID名称</param>
+        /// <param name="parentIdName">父级ID名称</param>
+        /// <param name="childsName">子列表名称</param>
+        /// <param name="rootValue">根值</param>
+        /// <returns></returns>
+        List<T> ToTreeData(string idName, string parentIdName, string childsName, object rootValue);
+
+        /// <summary>
+        /// 到树数据
+        /// </summary>
+        /// <param name="idName">ID名称</param>
+        /// <param name="parentIdName">父级ID名称</param>
+        /// <param name="childsName">子列表名称</param>
+        /// <param name="rootValue">根值</param>
+        /// <returns></returns>
+        Task<List<T>> ToTreeDataAsync(string idName, string parentIdName, string childsName, object rootValue);
+
+        /// <summary>
+        /// 到树数据
+        /// </summary>
+        /// <param name="idExpression">ID表达式</param>
+        /// <param name="parentIdExpression">父级ID表达式</param>
+        /// <param name="childsExpression">子列表表达式</param>
+        /// <param name="rootValue">根值</param>
+        /// <returns></returns>
+        List<T> ToTreeData(Expression<Func<T, object>> idExpression, Expression<Func<T, object>> parentIdExpression, Expression<Func<T, object>> childsExpression, object rootValue);
+
+        /// <summary>
+        /// 到树数据
+        /// </summary>
+        /// <param name="idExpression">ID表达式</param>
+        /// <param name="parentIdExpression">父级ID表达式</param>
+        /// <param name="childsExpression">子列表表达式</param>
+        /// <param name="rootValue">根值</param>
+        /// <returns></returns>
+        Task<List<T>> ToTreeDataAsync(Expression<Func<T, object>> idExpression, Expression<Func<T, object>> parentIdExpression, Expression<Func<T, object>> childsExpression, object rootValue);
+
+        /// <summary>
         /// 到数据表格
         /// </summary>
         /// <returns></returns>
