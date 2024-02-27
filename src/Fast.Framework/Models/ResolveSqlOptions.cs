@@ -38,6 +38,11 @@ namespace Fast.Framework
         public bool IgnoreColumnAttribute { get; set; }
 
         /// <summary>
+        /// 附加值
+        /// </summary>
+        public object Addedalue { get; set; }
+
+        /// <summary>
         /// 使用自定义参数
         /// </summary>
         public bool UseCustomParameter { get; set; } = true;

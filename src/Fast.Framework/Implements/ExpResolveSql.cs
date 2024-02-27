@@ -533,6 +533,10 @@ namespace Fast.Framework
                     else
                     {
                         Visit(node.Arguments[i]);
+                        if (ResolveSqlOptions.ResolveSqlType == ResolveSqlType.OrderBy)
+                        {
+                            SqlBuilder.Append($" {ResolveSqlOptions.Addedalue}");
+                        }
                     }
                 }
 
@@ -619,7 +623,11 @@ namespace Fast.Framework
                         }
                         else
                         {
-                            SqlBuilder.Append(memberAssignment.Member.Name);
+                            Visit(memberAssignment.Expression);
+                            if (ResolveSqlOptions.ResolveSqlType == ResolveSqlType.OrderBy)
+                            {
+                                SqlBuilder.Append($" {ResolveSqlOptions.Addedalue}");
+                            }
                         }
                     }
                     if (i + 1 < node.Bindings.Count)

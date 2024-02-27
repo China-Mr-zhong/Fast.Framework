@@ -562,10 +562,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }
@@ -2087,10 +2087,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }
@@ -2451,10 +2451,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }
@@ -2815,10 +2815,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }
@@ -3180,10 +3180,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }
@@ -3546,10 +3546,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }
@@ -3913,10 +3913,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }
@@ -4281,10 +4281,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }
@@ -4650,10 +4650,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }
@@ -5390,10 +5390,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }
@@ -5625,10 +5625,10 @@ namespace Fast.Framework
                 ResolveSqlOptions = new ResolveSqlOptions()
                 {
                     DbType = ado.DbOptions.DbType,
-                    ResolveSqlType = ResolveSqlType.OrderBy
+                    ResolveSqlType = ResolveSqlType.OrderBy,
+                    Addedalue = orderByType
                 },
-                Expression = expression,
-                Addedalue = orderByType
+                Expression = expression
             });
             return this;
         }

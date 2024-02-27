@@ -37,10 +37,5 @@ namespace Fast.Framework
         /// 模板
         /// </summary>
         public string Template { get; set; }
-
-        /// <summary>
-        /// 附加值
-        /// </summary>
-        public object Addedalue { get; set; }
     }
 }

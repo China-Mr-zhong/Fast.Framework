@@ -439,13 +439,15 @@ namespace Fast.Framework
                     }
                     else if (item.ResolveSqlOptions.ResolveSqlType == ResolveSqlType.OrderBy)
                     {
-                        if (item.Addedalue == null)
+                        var addedalue = Convert.ToString(item.ResolveSqlOptions.Addedalue);
+
+                        if (!string.IsNullOrWhiteSpace(addedalue) && !result.SqlString.Contains(addedalue))
                         {
-                            OrderBy.Add(result.SqlString);
+                            OrderBy.Add($"{result.SqlString} {addedalue}");
                         }
                         else
                         {
-                            OrderBy.Add(string.Join(",", result.SqlString.Split(",").Select(s => $"{s} {item.Addedalue}")));
+                            OrderBy.Add(result.SqlString);
                         }
                     }
 
