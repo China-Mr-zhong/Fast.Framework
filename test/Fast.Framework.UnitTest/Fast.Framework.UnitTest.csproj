@@ -41,7 +41,9 @@
   <ItemGroup>
     <Folder Include="Oracle\ExpResolve\" />
     <Folder Include="Oracle\SqlScript\" />
+    <Folder Include="Oracle\ExpResolve\" />
     <Folder Include="PostgreSql\ExpResolve\" />
+    <Folder Include="Sqlite\ExpResolve\" />
     <Folder Include="Sqlite\ExpResolve\" />
   </ItemGroup>
 

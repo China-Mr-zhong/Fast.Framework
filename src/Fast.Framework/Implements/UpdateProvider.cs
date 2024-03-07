@@ -403,10 +403,6 @@ namespace Fast.Framework
         /// <returns></returns>
         public IUpdate<T> Where(Expression<Func<T, bool>> expression)
         {
-            if (UpdateBuilder.IsUpdateList)
-            {
-                UpdateBuilder.EntityInfo.Alias = expression.Parameters[0].Name;
-            }
             UpdateBuilder.LambdaExp.ExpressionInfos.Add(new ExpressionInfo()
             {
                 ResolveSqlOptions = new ResolveSqlOptions()

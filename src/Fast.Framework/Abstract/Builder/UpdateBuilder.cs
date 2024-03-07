@@ -124,8 +124,7 @@ namespace Fast.Framework
             {
                 foreach (var item in LambdaExp.ExpressionInfos)
                 {
-                    if (IsUpdateList && item.ResolveSqlOptions.ResolveSqlType == ResolveSqlType.NewAssignment
-                        && (item.ResolveSqlOptions.DbType == DbType.SQLServer || item.ResolveSqlOptions.DbType == DbType.MySQL))
+                    if (IsUpdateList && (item.ResolveSqlOptions.DbType == DbType.SQLServer || item.ResolveSqlOptions.DbType == DbType.MySQL))
                     {
                         item.ResolveSqlOptions.IgnoreParameter = false;
                     }
