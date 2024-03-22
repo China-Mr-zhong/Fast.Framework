@@ -219,9 +219,12 @@ namespace Fast.Framework
         /// </summary>
         public void CommitTran()
         {
-            DbTransaction.Commit();
-            DbTransaction = null;
-            MasterDbConnection.Close();
+            if (DbTransaction != null)
+            {
+                DbTransaction.Commit();
+                DbTransaction = null;
+                MasterDbConnection.Close();
+            }
         }
 
         /// <summary>
@@ -229,9 +232,12 @@ namespace Fast.Framework
         /// </summary>
         public async Task CommitTranAsync()
         {
-            await DbTransaction.CommitAsync();
-            DbTransaction = null;
-            await MasterDbConnection.CloseAsync();
+            if (DbTransaction != null)
+            {
+                await DbTransaction.CommitAsync();
+                DbTransaction = null;
+                await MasterDbConnection.CloseAsync();
+            }
         }
 
         /// <summary>
