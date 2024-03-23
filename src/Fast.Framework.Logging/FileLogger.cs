@@ -55,19 +55,19 @@ namespace Fast.Framework.Logging
         /// <returns></returns>
         public bool IsEnabled(LogLevel logLevel)
         {
-            var list = new List<IConfigurationSection>();
-            list.AddRange(configuration.GetSection("Logging:LogLevel").GetChildren());
-            list.AddRange(configuration.GetSection("Logging:FileLog:LogLevel").GetChildren());
-
-            var category = list.LastOrDefault(f => categoryName.StartsWith(f.Key));
-
-            category ??= list.LastOrDefault(f => f.Key == "Default");
-
-            if (category != null && Enum.TryParse(typeof(LogLevel), category.Value, out var level))
+            var logLevels = configuration.GetSection("Logging:LogLevel").GetChildren().ToList();
+            if (logLevels.Count > 0)
             {
-                return (int)(LogLevel)level <= (int)logLevel;
+                var category = logLevels.LastOrDefault(f => categoryName.StartsWith(f.Key));
+
+                category ??= logLevels.LastOrDefault(f => f.Key == "Default");
+
+                if (category != null)
+                {
+                    return logLevel >= Enum.Parse<LogLevel>(category.Value);
+                }
             }
-            return 2 <= (int)logLevel;
+            return true;
         }
 
         /// <summary>
