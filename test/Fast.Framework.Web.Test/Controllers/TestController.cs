@@ -7,30 +7,34 @@ using System.Threading.Tasks;
 
 namespace Fast.Framework.Web.Test.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class TestController : ControllerBase
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly ILogger<TestController> logger;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
         public TestController(ILogger<TestController> logger)
         {
             this.logger = logger;
         }
 
-
+        /// <summary>
+        /// 写入日志
+        /// </summary>
         [HttpGet]
         public void WriteLog()
         {
-            //for (int i = 0; i < 1000; i++)
-            //{
-            //    logger.LogInformation($"线程ID:{Thread.CurrentThread.ManagedThreadId},测试日志写入,第{i + 1}次");
-            //}
-            Parallel.For(0, 10000, i =>
-            {
-                logger.LogInformation($"线程ID:{Thread.CurrentThread.ManagedThreadId},测试日志写入,第{i + 1}次");
-            });
+            logger.LogDebug("测试");
         }
     }
 }

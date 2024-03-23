@@ -17,13 +17,16 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Fast.Framework.Logging;
+using Microsoft.Extensions.Logging;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Logging.AddFileLog();
+builder.Logging.AddFileLog();
 
 //加载配置选项
-builder.Services.Configure<List<DbOptions>>(builder.Configuration.GetSection("DbOptions"));
+builder.Services.Configure<List<DbOptions>>(builder.Configuration.GetSection(nameof(DbOptions)));
 
 //注册数据库上下文
 builder.Services.AddFastDbContext();
@@ -76,38 +79,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 builder.Services.AddTransient<IClientErrorFactory, ClientErrorFactory>();
 
-//var jwtOptions = builder.Configuration.GetSection("JwtOptions").Get<JwtOptions>();
-
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-//{
-//    options.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        ValidateIssuer = true,//验证颁发者
-//        ValidateAudience = true,//验证接收者
-//        ValidateLifetime = true,//验证过期时间
-//        ValidateIssuerSigningKey = true, //是否验证签名
-//        ValidIssuer = jwtOptions.Issuer,//颁发者
-//        ValidAudience = jwtOptions.Audience,//接收者
-//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SymmetricSecurityKey)),//解密密钥
-//        ClockSkew = TimeSpan.Zero //缓冲时间
-//    };
-//    options.Events = new JwtBearerEvents()
-//    {
-//        OnChallenge = context =>
-//        {
-//            context.HandleResponse();
-//            context.Response.ContentType = "application/json";
-//            context.Response.StatusCode = 200;
-
-//            if (context.AuthenticateFailure is SecurityTokenExpiredException)
-//            {
-//                return context.Response.WriteAsync($"{{\"Code\":{ApiCodes.LoginInvalid},\"Message\":\"Token Invalid\"}}");
-//            }
-
-//            return context.Response.WriteAsync($"{{\"Code\":{ApiCodes.TokenError},\"Message\":\"Token Error\"}}");
-//        }
-//    };
-//});
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.IncludeXmlComments(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fast.Framework.Web.Test.xml"), true);
+});
 
 var app = builder.Build();
 
@@ -115,6 +91,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     //app.UseDeveloperExceptionPage();
+
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
     app.Urls.Add("http://*.*.*:5000");
 }
 
