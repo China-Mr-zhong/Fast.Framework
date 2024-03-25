@@ -416,6 +416,21 @@ namespace Fast.Framework
         }
 
         /// <summary>
+        /// 条件
+        /// </summary>
+        /// <param name="where">条件</param>
+        /// <param name="expression">表达式</param>
+        /// <returns></returns>
+        public IUpdate<T> WhereIF(bool where, Expression<Func<T, bool>> expression)
+        {
+            if (where)
+            {
+                Where(expression);
+            }
+            return this;
+        }
+
+        /// <summary>
         /// 执行
         /// </summary>
         /// <returns></returns>
