@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fast.Framework.Implements;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +59,7 @@ namespace Fast.Framework
                 case MethodCallExpression:
                     {
                         return VisitMethodCall(node as MethodCallExpression);
-                    }
+                    };
                 default:
                     {
                         var obj = Expression.Lambda(node).Compile().DynamicInvoke();
@@ -119,7 +120,14 @@ namespace Fast.Framework
             var arguments = new List<object>();
             foreach (var item in node.Arguments)
             {
-                arguments.Add(ResolveObj(item));
+                if (item is UnaryExpression unaryExpression)
+                {
+                    arguments.Add(unaryExpression.Operand);
+                }
+                else
+                {
+                    arguments.Add(item);
+                }
             }
 
             object result;

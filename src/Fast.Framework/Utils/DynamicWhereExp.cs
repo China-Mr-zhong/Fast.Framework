@@ -237,15 +237,15 @@ namespace Fast.Framework
 
         public List<ParameterExpression> Parameters { get; }
 
+        internal ExpParameterReplace(List<ParameterExpression> Parameters)
+        {
+            this.Parameters = Parameters;
+        }
+
         protected override Expression VisitParameter(ParameterExpression node)
         {
             var exp = Parameters.FirstOrDefault(f => f.Name == node.Name);
             return base.VisitParameter(exp ?? node);
-        }
-
-        internal ExpParameterReplace(List<ParameterExpression> Parameters)
-        {
-            this.Parameters = Parameters;
         }
     }
 

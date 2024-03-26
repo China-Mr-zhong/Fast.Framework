@@ -317,7 +317,7 @@ namespace Fast.Framework
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static CaseWarp<T> Case<T>(T t)
+        public static CaseWrapper<T> Case<T>(T t)
         {
             return default;
         }
@@ -328,7 +328,7 @@ namespace Fast.Framework
         /// <typeparam name="T"></typeparam>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public static CaseWarp<T> CaseWhen<T>(bool value)
+        public static CaseWrapper<T> CaseWhen<T>(bool value)
         {
             return default;
         }
@@ -340,7 +340,7 @@ namespace Fast.Framework
         /// <param name="source">源</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public static CaseWarp<T> When<T>(this CaseWarp<T> source, T value)
+        public static CaseWrapper<T> When<T>(this CaseWrapper<T> source, T value)
         {
             return default;
         }
@@ -352,7 +352,7 @@ namespace Fast.Framework
         /// <param name="source">源</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public static CaseWarp<T> When<T>(this CaseWarp<T> source, bool value)
+        public static CaseWrapper<T> When<T>(this CaseWrapper<T> source, bool value)
         {
             return default;
         }
@@ -365,7 +365,7 @@ namespace Fast.Framework
         /// <param name="source">源</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public static CaseWarp<T> Then<T, TValue>(this CaseWarp<T> source, TValue value)
+        public static CaseWrapper<T> Then<T, TValue>(this CaseWrapper<T> source, TValue value)
         {
             return default;
         }
@@ -378,7 +378,7 @@ namespace Fast.Framework
         /// <param name="source">源</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public static CaseWarp<T> Else<T, TValue>(this CaseWarp<T> source, TValue value)
+        public static CaseWrapper<T> Else<T, TValue>(this CaseWrapper<T> source, TValue value)
         {
             return default;
         }
@@ -389,7 +389,7 @@ namespace Fast.Framework
         /// <typeparam name="T"></typeparam>
         /// <param name="source">源</param>
         /// <returns></returns>
-        public static T End<T>(this CaseWarp<T> source)
+        public static T End<T>(this CaseWrapper<T> source)
         {
             return default;
         }
@@ -402,7 +402,7 @@ namespace Fast.Framework
     /// Case包装类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class CaseWarp<T>
+    public class CaseWrapper<T>
     {
     }
 }
