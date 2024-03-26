@@ -125,7 +125,7 @@ namespace Fast.Framework
                 }
                 else
                 {
-                    arguments.Add(item);
+                    arguments.Add(ResolveObj(item));
                 }
             }
 
