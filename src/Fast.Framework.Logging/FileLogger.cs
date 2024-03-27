@@ -83,9 +83,10 @@ namespace Fast.Framework.Logging
         {
             if (IsEnabled(logLevel))
             {
-                Mutex mutex = null;
                 try
                 {
+                    FileLock.semaphoreSlim.Wait();
+
                     var fileLogOptions = configuration.GetSection("Logging:FileLog").Get<FileLogOptions>() ?? new FileLogOptions();
 
                     var fileName = fileLogOptions.FileName;
@@ -147,9 +148,6 @@ namespace Fast.Framework.Logging
                     }
                     sb.AppendLine();
 
-                    mutex = new Mutex(false, path.Replace("\\", ""));
-                    mutex.WaitOne();
-
                     if (File.Exists(path))
                     {
                         var maxSize = fileLogOptions.MaxFileSize;
@@ -168,8 +166,7 @@ namespace Fast.Framework.Logging
                 }
                 finally
                 {
-                    mutex?.ReleaseMutex();
-                    mutex?.Dispose();
+                    FileLock.semaphoreSlim.Release();
                 }
             }
         }

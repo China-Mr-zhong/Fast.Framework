@@ -52,32 +52,31 @@ namespace Fast.Framework.Logging
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     var fileLogOptions = configuration.GetSection("Logging:FileLog").Get<FileLogOptions>() ?? new FileLogOptions();
-                    Mutex mutex = null;
                     try
                     {
-                        mutex = new Mutex(false, $"{AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "")}{typeof(FileLogHostService).FullName}");
-                        mutex.WaitOne();
-
                         foreach (var directory in DirectoryHelper.GetDirectorys())
                         {
-                            var directoryInfo = new DirectoryInfo(directory);
-                            var fileInfos = directoryInfo.GetFiles();
-                            //如果没有文件移除目录
-                            if (fileInfos.Length == 0)
+                            if (Directory.Exists(directory))
                             {
-                                DirectoryHelper.Remove(directory);
-                            }
-                            else
-                            {
-                                //最大文件个数限制清理
-                                if (fileInfos.Length > fileLogOptions.MaxFileCount)
+                                var directoryInfo = new DirectoryInfo(directory);
+                                var fileInfos = directoryInfo.GetFiles();
+                                //如果没有文件移除目录
+                                if (fileInfos.Length == 0)
                                 {
-                                    var removeFileInfo = fileInfos.OrderBy(o => o.CreationTime).ThenBy(o => o.LastWriteTime).SkipLast(fileLogOptions.MaxFileCount).ToList();
-                                    foreach (var item in removeFileInfo)
+                                    DirectoryHelper.Remove(directory);
+                                }
+                                else
+                                {
+                                    //最大文件个数限制清理
+                                    if (fileInfos.Length > fileLogOptions.MaxFileCount)
                                     {
-                                        if (File.Exists(item.FullName))
+                                        var removeFileInfo = fileInfos.OrderBy(o => o.CreationTime).ThenBy(o => o.LastWriteTime).SkipLast(fileLogOptions.MaxFileCount).ToList();
+                                        foreach (var item in removeFileInfo)
                                         {
-                                            File.Delete(item.FullName);
+                                            if (File.Exists(item.FullName))
+                                            {
+                                                File.Delete(item.FullName);
+                                            }
                                         }
                                     }
                                 }
@@ -87,11 +86,6 @@ namespace Fast.Framework.Logging
                     catch (Exception ex)
                     {
                         logger.LogError(ex, $"文件日志后台服务发生异常:{ex.Message}");
-                    }
-                    finally
-                    {
-                        mutex?.ReleaseMutex();
-                        mutex?.Dispose();
                     }
                     await Task.Delay(fileLogOptions.AutoClearDelay > 0 ? fileLogOptions.AutoClearDelay : 600000, stoppingToken);
                 }
